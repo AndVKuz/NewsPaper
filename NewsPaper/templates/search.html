@@ -1,0 +1,28 @@
+<{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block content %}
+   <h1>Search news or articles</h1>
+
+   <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" value="Search" />
+   </form>
+   <hr>
+   <table class="table">
+       <thead>
+       <tr>
+           <th scope="col">Название</th>
+           <th scope="col">Дата публикации</th>
+           <th scope="col">Категория</th>
+       </tr>
+       {% for post in search %}
+           <tr>
+               <td>{{ post.title }}</td>
+               <td>{{ post.dateCreation }}</td>
+               <td>{{ post.postCategory }}</td>
+           </tr>
+           {% endfor %}
+       </table>
+
+{% endblock content %}
