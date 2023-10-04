@@ -1,4 +1,6 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy
+
 from datetime import datetime
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -48,7 +50,9 @@ class PostDetail(DetailView):
     context_object_name = 'post'
 
 
-class NewsCreate(CreateView):
+class NewsCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_news',)
+    raise_exception = True
     form_class = NewsForm
     model = Post
     template_name = 'news_edit.html'
@@ -58,7 +62,8 @@ class NewsCreate(CreateView):
         return super().form_valid(form)
 
 
-class NewsEdit(UpdateView):
+class NewsEdit(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.update_news',)
     form_class = NewsForm
     model = Post
     template_name = 'news_edit.html'
@@ -68,7 +73,8 @@ class NewsEdit(UpdateView):
         return super().form_valid(form)
 
 
-class NewsDelete(DeleteView):
+class NewsDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_news',)
     form_class = NewsForm
     model = Post
     template_name = 'news_delete.html'
@@ -78,7 +84,8 @@ class NewsDelete(DeleteView):
         return super().form_valid(form)
 
 
-class ArticleCreate(CreateView):
+class ArticleCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_article',)
     form_class = NewsForm
     model = Post
     template_name = 'articles_edit.html'
@@ -88,7 +95,8 @@ class ArticleCreate(CreateView):
         return super().form_valid(form)
 
 
-class ArticleEdit(UpdateView):
+class ArticleEdit(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.update_article',)
     form_class = NewsForm
     model = Post
     template_name = 'articles_edit.html'
@@ -98,7 +106,8 @@ class ArticleEdit(UpdateView):
         return super().form_valid(form)
 
 
-class ArticleDelete(DeleteView):
+class ArticleDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_article',)
     form_class = NewsForm
     model = Post
     template_name = 'articles_delete.html'
