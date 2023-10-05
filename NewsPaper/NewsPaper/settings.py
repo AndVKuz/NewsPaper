@@ -49,9 +49,13 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
+
+    "django_apscheduler",
 ]
 
 SITE_ID = 1
+
+SITE_URL = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -96,6 +100,24 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "kuz.andrey.00"
+EMAIL_HOST_PASSWORD = "AS6TaurWt7zbL7MdfhsY"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = "kuz.andrey.00@mail.ru"
+
+SERVER_EMAIL = "kuz.andrey.00@mail.ru"
+MANAGERS = (
+    ('Andrey', 'andkuzov.13@yandex.ru'),
+    ('Andry', 'kuz.andrey.00@mail.ru'),
+)
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
