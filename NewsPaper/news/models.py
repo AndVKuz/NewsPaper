@@ -26,9 +26,10 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
+    subscribers = models.ManyToManyField(User, related_name='categories')
 
     def __str__(self):
-        return f'{self.name}'
+        return self.name
 
 
 class Post(models.Model):
@@ -47,6 +48,9 @@ class Post(models.Model):
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
 
+    def __str__(self):
+        return f'{self.title.title()}: {self.text[:20]}...'
+
     def like(self):
         self.rating += 1
         self.save()
@@ -58,9 +62,6 @@ class Post(models.Model):
     def preview(self):
         return self.text[0:123] + '...'
 
-    def __str__(self):
-        return f'{self.title}, {self.postCategory}'
-
     def get_absolute_url(self):
         return reverse('post', args=[str(self.id)])
 
@@ -68,9 +69,6 @@ class Post(models.Model):
 class PostCategory(models.Model):
     postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
     categoryThrough = models.ForeignKey(Category, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.post.title} | {self.category.name}'
 
 
 class Comment(models.Model):
@@ -91,4 +89,19 @@ class Comment(models.Model):
         self.rating -= 1
         self.save()
 
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
+
+    def __str__(self):
+        return str(self.user)
 
