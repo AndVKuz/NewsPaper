@@ -43,7 +43,7 @@ posts
                <td>{{ post.dateCreation| date:'d.M.Y' }}</td>
                <td>{{ post.text|truncatechars:20|censor }}</td>
                <td>{% for name in post.postCategory.all %}
-                   {{ name }}
+                   {{ title }}
                    {% endfor %}</td>
                <td>{{ post.rating }}</td>
 

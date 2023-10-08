@@ -12,7 +12,7 @@ class PostFilter(FilterSet):
         label='Заголовок'
     )
 
-    categoryType = django_filters.ModelChoiceFilter(
+    postCategory = django_filters.ModelChoiceFilter(
         field_name='postCategory',
         queryset=Category.objects.all(),
         label='Категории',
