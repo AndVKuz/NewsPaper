@@ -106,7 +106,7 @@ ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_PORT = 465
+EMAIL_PORT = 2525
 EMAIL_HOST_USER = "kuz.andrey.00"
 EMAIL_HOST_PASSWORD = "AS6TaurWt7zbL7MdfhsY"
 EMAIL_USE_TLS = False
@@ -119,6 +119,16 @@ MANAGERS = (
     ('Andrey', 'andkuzov.13@yandex.ru'),
     ('Andry', 'kuz.andrey.00@mail.ru'),
 )
+
+####################################
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+############################
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
