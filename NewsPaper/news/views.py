@@ -13,6 +13,8 @@ from .forms import NewsForm
 from .models import *
 from .filters import PostFilter
 
+from django.core.cache import cache
+
 
 class PostList(ListView):
     model = Post
@@ -53,6 +55,16 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'post.html'
     context_object_name = 'post'
+
+    def get_object(self, *args, **kwargs):  # переопределяем метод получения объекта, как ни странно
+        obj = cache.get(f'post-{self.kwargs["pk"]}',
+                        None)  # кэш очень похож на словарь, и метод get действует так же. Он забирает значение по ключу, если его нет, то забирает None.
+
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+            return obj
 
 
 class NewsCreate(PermissionRequiredMixin, CreateView):
